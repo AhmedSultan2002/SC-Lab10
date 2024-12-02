@@ -1,43 +1,60 @@
 package expressivo;
 
-/**
- * Immutable class representing a numeric constant in an expression.
- */
-public class Number implements Expression {
-    private final double value;
+import java.util.Map;
+
+class Number implements Expression {
+    private final double n;
     
-    // Abstraction Function:
-    //   AF(value) = a numeric constant value
-    //
-    // Representation Invariant:
-    //   true
-    //
-    // Safety from Rep Exposure:
-    //   - value is private and final, and a primitive (immutable)
-
-    private void checkRep() {
-        // No specific rep invariant for now
-    }
-
-    public Number(double value) {
-        this.value = value;
+    // Abstraction function
+    //   represents the number n
+    // Rep invariant
+    //   n is nonnegative
+    // Safety from rep exposure
+    //   all fields are immutable and final
+    
+    /** 
+     * Make a Number.
+     * 
+     * @param n nonnegative number to represent
+     */
+    public Number(double n) {
+        this.n = n;
         checkRep();
     }
 
-    @Override
-    public String toString() {
-        return Double.toString(value);
+    /**
+     * Get the number represented
+     * 
+     * @return the number represented
+     */
+    public double getNumber() {
+        return n;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Number)) return false;
-        Number that = (Number) obj;
-        return Double.compare(this.value, that.value) == 0;
+    /**
+     * Check the rep invariant.
+     */
+    private void checkRep() {
+        assert n >= 0;
+    }
+    
+    @Override public String toString() {
+        return String.valueOf(n);
     }
 
-    @Override
-    public int hashCode() {
-        return Double.hashCode(value);
+    @Override public boolean equals(Object thatObject) {
+        if (!(thatObject instanceof Number)) return false;
+        Number that = (Number) thatObject;
+        return this.n == that.n;
     }
+
+    @Override public int hashCode() {
+        return Double.hashCode(n);
+    }
+
+    @Override public Expression differentiate(String variable) {
+        return new Number(0);
+    }
+
+  
 }

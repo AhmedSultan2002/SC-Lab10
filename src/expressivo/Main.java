@@ -46,10 +46,6 @@ public class Main {
                     final String variable = parseDifferentiate(input);
                     output = Commands.differentiate(currentExpression.get(), variable);
                     currentExpression = Optional.of(output);
-                } else if (input.startsWith(SIMPLIFY_PREFIX)) {
-                    final Map<String,Double> environment = parseSimpify(input);
-                    output = Commands.simplify(currentExpression.get(), environment);
-                    // ... but don't change currentExpression
                 } else {
                     final Expression expression = Expression.parse(input);
                     output = expression.toString();
@@ -57,10 +53,20 @@ public class Main {
                 }
                 
                 System.out.println(output);
-            } catch (NoSuchElementException nse) {
+            }
+            catch (IllegalArgumentException e) {
+                // illegal expression encountered in parsing
+                System.out.println("ParseError: unknown expression");
+            }
+            catch (CommandSyntaxException e) {
+                // command syntax error
+                System.out.println(e.getMessage());
+            }
+            catch (NoSuchElementException nse) {
                 // currentExpression was empty
                 System.out.println("must enter an expression before using this command");
-            } catch (RuntimeException re) {
+            }
+            catch (RuntimeException re) {
                 System.out.println(re.getClass().getName() + ": " + re.getMessage());
             }
         }
@@ -80,29 +86,7 @@ public class Main {
         return variable;
     }
     
-    private static final String SIMPLIFY_PREFIX = "!simplify";
-    private static final String ASSIGNMENT = "(" + VARIABLE + ") *= *([^ ]+)";
-    private static final String SIMPLIFY = SIMPLIFY_PREFIX + "( +" + ASSIGNMENT + ")* *";    
 
-    private static Map<String,Double> parseSimpify(final String input) {
-        final Matcher commandMatcher = Pattern.compile(SIMPLIFY).matcher(input);
-        if (!commandMatcher.matches()) {
-            throw new CommandSyntaxException("usage: !simplify var1=val1 var2=val2 ...");
-        }
-        
-        final Map<String,Double> environment = new HashMap<>();
-        final Matcher argumentMatcher = Pattern.compile(ASSIGNMENT).matcher(input);
-        while (argumentMatcher.find()) {
-            final String variable = argumentMatcher.group(1);
-            final double value = Double.valueOf(argumentMatcher.group(2));
-            environment.put(variable, value);
-        }
-
-        // un-comment the following line to print the environment after each !simplify command
-        //System.out.println(environment);
-        return environment;
-    }
-    
     public static class CommandSyntaxException extends RuntimeException {
         private static final long serialVersionUID = 1;
         public CommandSyntaxException(String message) {

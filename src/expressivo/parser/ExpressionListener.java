@@ -1,4 +1,4 @@
-// Generated from Expression.g4 by ANTLR 4.5.1
+// Generated from C:\Users\davin\eclipse-workspace\ps3\src\expressivo\parser\Expression.g4 by ANTLR 4.5.1
 
 package expressivo.parser;
 // Do not edit this .java file! Edit the grammar in Expression.g4 and re-run Antlr.
@@ -30,6 +30,16 @@ public interface ExpressionListener extends ParseTreeListener {
    * @param ctx the parse tree
    */
   void exitSum(ExpressionParser.SumContext ctx);
+  /**
+   * Enter a parse tree produced by {@link ExpressionParser#product}.
+   * @param ctx the parse tree
+   */
+  void enterProduct(ExpressionParser.ProductContext ctx);
+  /**
+   * Exit a parse tree produced by {@link ExpressionParser#product}.
+   * @param ctx the parse tree
+   */
+  void exitProduct(ExpressionParser.ProductContext ctx);
   /**
    * Enter a parse tree produced by {@link ExpressionParser#primitive}.
    * @param ctx the parse tree

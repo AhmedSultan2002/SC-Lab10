@@ -1,43 +1,50 @@
 package expressivo;
 
-/**
- * Immutable class representing a variable in an expression.
- */
-public class Variable implements Expression {
-    private final String name;
+import java.util.Map;
+
+class Variable implements Expression {
+    private final String var;
     
-    // Abstraction Function:
-    //   AF(name) = a variable with a specific name
-    //
-    // Representation Invariant:
-    //   name is non-empty and only contains letters
-    //
-    // Safety from Rep Exposure:
-    //   - name is private, final, and a String (immutable)
-
-    private void checkRep() {
-        assert name.matches("[A-Za-z]+");
-    }
-
-    public Variable(String name) {
-        this.name = name;
+    // Abstraction function
+    //   represents the variable var
+    // Rep invariant
+    //   var is a nonempty string of letters
+    // Safety from rep exposure
+    //   all fields are immutable and final
+    
+    /** 
+     * Make a Variable.
+     * 
+     * @param var nonempty nonempty to represent
+     */
+    public Variable(String var) {
+        this.var = var;
         checkRep();
     }
 
-    @Override
-    public String toString() {
-        return name;
+    /**
+     * Check the rep invariant.
+     */
+    private void checkRep() {
+        assert var.matches("[a-zA-Z]+");
+    }
+    
+    @Override public String toString() {
+        return var;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Variable)) return false;
-        Variable that = (Variable) obj;
-        return this.name.equals(that.name);
+    @Override public boolean equals(Object thatObject) {
+        if (!(thatObject instanceof Variable)) return false;
+        Variable that = (Variable) thatObject;
+        return this.var.equals(that.var);
     }
 
-    @Override
-    public int hashCode() {
-        return name.hashCode();
+    @Override public int hashCode() {
+        return var.hashCode();
     }
+
+    @Override public Expression differentiate(String variable) {
+        return var.equals(variable) ? new Number(1) : new Number(0);
+    }
+
 }

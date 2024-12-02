@@ -1,4 +1,4 @@
-// Generated from Expression.g4 by ANTLR 4.5.1
+// Generated from C:\Users\davin\eclipse-workspace\ps3\src\expressivo\parser\Expression.g4 by ANTLR 4.5.1
 
 package expressivo.parser;
 // Do not edit this .java file! Edit the grammar in Expression.g4 and re-run Antlr.
@@ -38,6 +38,18 @@ public class ExpressionBaseListener implements ExpressionListener {
    * <p>The default implementation does nothing.</p>
    */
   @Override public void exitSum(ExpressionParser.SumContext ctx) { }
+  /**
+   * {@inheritDoc}
+   *
+   * <p>The default implementation does nothing.</p>
+   */
+  @Override public void enterProduct(ExpressionParser.ProductContext ctx) { }
+  /**
+   * {@inheritDoc}
+   *
+   * <p>The default implementation does nothing.</p>
+   */
+  @Override public void exitProduct(ExpressionParser.ProductContext ctx) { }
   /**
    * {@inheritDoc}
    *
